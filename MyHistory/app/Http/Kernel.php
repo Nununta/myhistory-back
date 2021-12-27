@@ -3,6 +3,9 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful; // 追加
+use \App\Http\Middleware\EncryptCookies;// 追加
+use \Illuminate\Session\Middleware\StartSession;// 追加
 
 class Kernel extends HttpKernel
 {
@@ -40,6 +43,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            EncryptCookies::class,// 追記
+            StartSession::class,// 追記
+            EnsureFrontendRequestsAreStateful::class, // 追記
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

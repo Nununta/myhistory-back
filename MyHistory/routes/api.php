@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController; //追記
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +19,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//apiTest
-Route::get('/hello', function() {
-    return response()->json(['hello' => 'helloworld'],201);
-});
-
 // 会員登録
 Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
-// ログイン
-Route::post('/login', 'Auth\LoginController@login')->name('login');
 
-// ログアウト
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::prefix('auth')->group(function() {
+    // ログイン
+    Route::post('/login', [LoginController::class, 'login']);
+    
+    // ログアウト
+    Route::post('/logout', [LoginController::class, 'logout']);
+});
+
+///追記
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

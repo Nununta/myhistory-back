@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request; // ★追加
+use Illuminate\Http\JsonResponse; //追記
+use Illuminate\Support\Facades\Auth; //追記
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -52,4 +55,20 @@ class LoginController extends Controller
   
           return response()->json();
       }
+
+    //追加
+    public function login(Request $request): JsonResponse
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        if (auth()->attempt($credentials)) {
+            log::info('a');
+            $request->session()->regenerate();
+            return response()->json(Auth::user());
+        }
+        log::info('b');
+        return response()->json(['message' => 'ユーザーが見つかりません。'], 422);
+    }
 }
