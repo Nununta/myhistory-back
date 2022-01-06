@@ -38,7 +38,7 @@ class LearnCardController extends Controller
 
     public function getAll(Request $request){
         $learnCards = LearnCard::where('user_id',Auth::id())->get();
-        return response()->json(['taskCards' => $learnCards],201);
+        return response()->json(['learnCards' => $learnCards],201);
     }
     
     public function create(LearnCardRequest $request, LearnCard $learnCard)
