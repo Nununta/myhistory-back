@@ -26,7 +26,7 @@ class TaskListRequest extends FormRequest
     {
         //バリデーション設定
         return [
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:task_lists',
         ];
     }
 
