@@ -26,7 +26,6 @@ class LearnListController extends Controller
 
     public function create(LearnListRequest $request, LearnList $learnList)
     {
-        
         $learnList->fill($request->all());
         $learnList->user_id = $request->user()->id;
         $learnList->save();
